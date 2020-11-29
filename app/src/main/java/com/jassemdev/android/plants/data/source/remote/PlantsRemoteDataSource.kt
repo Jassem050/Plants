@@ -9,4 +9,8 @@ class PlantsRemoteDataSource(private val plantsApi: PlantsApi): PlantsDataSource
         return plantsApi.getPlants("vgfQYy5rQjOc1BznX3d5_lHwdEZr4qiGeFVYM1WpXeA")
     }
 
+    override suspend fun getPlantsByPage(pageNumber: Int, token: String): PlantsApiModel {
+        return plantsApi.getPlantsByPage(pageNumber, token)
+    }
+
 }

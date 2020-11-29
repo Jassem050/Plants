@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.drawToBitmap
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jassemdev.android.plants.data.model.Plant
@@ -13,15 +15,15 @@ import java.io.ByteArrayOutputStream
 
 class PlantsListAdapter(
     private val onPlantItemClicked: (plant: Plant) -> Unit
-): RecyclerView.Adapter<PlantsListAdapter.PlantsViewHolder>() {
+): PagingDataAdapter<Plant, PlantsListAdapter.PlantsViewHolder>(ITEM_COMPARATOR) {
 
-    private val data: MutableList<Plant> = mutableListOf()
+//    private val data: MutableList<Plant> = mutableListOf()
 
-    fun setPlantItems(plants: List<Plant>) {
+/*    fun setPlantItems(plants: List<Plant>) {
         data.clear()
         data.addAll(plants)
         notifyDataSetChanged()
-    }
+    }*/
 
     class PlantsViewHolder(
         private val binding: PlantItemBinding,
@@ -52,10 +54,19 @@ class PlantsListAdapter(
     }
 
     override fun onBindViewHolder(holder: PlantsViewHolder, position: Int) {
-        holder.bind(data[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int {
-        return data.size
+    companion object {
+        private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Plant>() {
+            override fun areItemsTheSame(oldItem: Plant, newItem: Plant): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Plant, newItem: Plant): Boolean {
+                return oldItem == newItem
+            }
+
+        }
     }
 }

@@ -9,4 +9,8 @@ class PlantsLocalDataSource @Inject constructor(): PlantsDataSource {
     override suspend fun getPlants(): PlantsApiModel {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getPlantsByPage(pageNumber: Int, token: String): PlantsApiModel {
+        TODO("Not yet implemented")
+    }
 }

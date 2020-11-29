@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import coil.memory.MemoryCache
 import com.google.android.flexbox.*
 import com.jassemdev.android.plants.*
@@ -20,6 +21,9 @@ import com.jassemdev.android.plants.data.source.remote.PlantsRemoteDataSource
 import com.jassemdev.android.plants.databinding.FragmentHomeBinding
 import com.jassemdev.android.plants.detail.DetailsFragment
 import com.jassemdev.android.plants.di.viewmodel.AppViewModelFactory
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,11 +47,13 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
 
+    @ExperimentalCoroutinesApi
     private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
     }
 
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -68,9 +74,11 @@ class HomeFragment : Fragment() {
         }
 
 
-        viewModel.data.observe(viewLifecycleOwner, Observer { plants ->
-            (binding.plantList.adapter as PlantsListAdapter).setPlantItems(plants)
-        })
+        lifecycleScope.launch {
+            viewModel.data.collectLatest {  plants ->
+                (binding.plantList.adapter as PlantsListAdapter).submitData(plants)
+            }
+        }
 
         return binding.root
     }

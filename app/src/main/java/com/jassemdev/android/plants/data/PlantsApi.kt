@@ -36,7 +36,7 @@ interface PlantsApi {
     suspend fun getPlants(@Query("token") token: String): PlantsApiModel
 
     @GET("plants")
-    suspend fun getPlantsByPage(@Query("page") pageNumber: Long,
+    suspend fun getPlantsByPage(@Query("page") pageNumber: Int,
                                 @Query("token") token: String): PlantsApiModel
 
     @GET("plants/{id}")

@@ -23,7 +23,7 @@ data class Plant(
         val slug: String,
         val year: String?,
         val rank: String,
-        @Json(name = "family_common_name") val familyName: String,
-        val family: String,
+        @Json(name = "family_common_name") val familyName: String?,
+        val family: String?,
         val genus: String
 ) : Parcelable
