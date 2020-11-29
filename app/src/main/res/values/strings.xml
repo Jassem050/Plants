@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Plants</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Plant Classification Labels -->
+    <string name="slug_label">Slug</string>
+    <string name="scientific_name_label">Scientific Name</string>
+    <string name="year_label">Year</string>
+    <string name="bibliography_label">Bibliography</string>
+    <string name="author_label">Author</string>
+    <string name="family_name_label">Family Name</string>
+    <string name="family_label">Family</string>
+    <string name="genus_label">Genus</string>
+
+    <!-- Image content descriptions -->
+    <string name="toolbar_image_desc">toolbar image</string>
+</resources>
